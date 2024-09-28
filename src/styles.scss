@@ -18,7 +18,7 @@
 }
 
 * {
-  font-family: Inter, sans-serif;
+
 }
 
 .default-page{
@@ -189,4 +189,32 @@
 
 .route-link.active span {
   font-weight: 600; /* Bold the text for active link */
+}
+
+
+header{
+  border-bottom: 1px solid #dedede;
+}
+
+
+.simple-button {
+  padding: 4px 15px;
+  font-size: 13px;
+  color: #333;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.simple-button:hover {
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.simple-button:active {
+  box-shadow: none;
+  background-color: #e0e0e0;
 }

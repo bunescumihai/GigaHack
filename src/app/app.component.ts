@@ -1,25 +1,23 @@
 import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {TestRepository} from "./services/repositories/test.repository";
 import {IconsModule} from "./icons/icons-module";
 import {LeftSideBarComponent} from "./components/left-side-bar/left-side-bar.component";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgSelectModule} from "@ng-select/ng-select";
-import {Subject} from "rxjs";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {LocationsRepositoryService} from "./services/repositories/locations-repository.service";
 import {AsyncPipe} from "@angular/common";
 import {LogicService} from "./services/logic.service";
-import {TechnicianRepositoryService} from "./services/repositories/technician-repository.service";
-import 'leaflet.markercluster';
+import {AnalysisPageComponent} from "./pages/analysis-page/analysis-page.component";
+import {APP_ROUTER_TOKENS} from "./app-router-tokens";
 
-declare let L: any;
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, IconsModule, LeftSideBarComponent, LeafletModule, NgbDropdownModule, NgSelectModule, DashboardComponent, AsyncPipe, RouterLink],
+  imports: [RouterOutlet, IconsModule, LeftSideBarComponent, LeafletModule, NgbDropdownModule, NgSelectModule, DashboardComponent, AsyncPipe, RouterLink, AnalysisPageComponent, RouterLinkActive],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -28,7 +26,6 @@ export class AppComponent implements OnInit, AfterViewInit{
   test = inject(TestRepository);
   locationsRepository = inject(LocationsRepositoryService);
   logic = inject(LogicService);
-  technicianRepository = inject(TechnicianRepositoryService);
 
 
   changeLocations(location: string){
@@ -36,25 +33,19 @@ export class AppComponent implements OnInit, AfterViewInit{
     console.log(location);
   }
 
+  routes = {
+    analysis: `/${APP_ROUTER_TOKENS.HOME}`,
+    agencies: `/${APP_ROUTER_TOKENS.AGENCIES}`
+  }
 
   ngOnInit(): void {
-    this.test.getTestData().subscribe( data => {
-      console.log(data);
-    })
-
-    this.technicianRepository.technicianIncidents$.subscribe(data => {
-      console.log(data);
-    })
-
   }
 
   constructor() {
   }
 
 
-  makePostRequest(city: { name: string, lat: number, lng: number }) {
-  }
-
+/*
   private map!: any;
   private initMap(): void {
     // Initialize the map
@@ -499,17 +490,10 @@ export class AppComponent implements OnInit, AfterViewInit{
     // Add the marker cluster group to the map
     this.map.addLayer(markerClusterGroup);
   }
+*/
 
   ngAfterViewInit(): void {
-    this.initMap();
+    // this.initMap();
   }
 
-  search$ = new Subject<string>();  // Now using Subject<string> instead of Observable
-  loading = false;
-
-
-  onCitySelect(selectedCity: any) {
-    console.log('City selected:', selectedCity);
-    // Handle city selection
-  }
 }

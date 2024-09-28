@@ -4,8 +4,6 @@ import {
   ElementRef,
   inject,
   OnInit,
-  Renderer2,
-  signal,
   ViewChild
 } from '@angular/core';
 import {IconsModule} from "../../icons/icons-module";
@@ -14,7 +12,6 @@ import {AsyncPipe, NgClass, NgIf, NgStyle} from "@angular/common";
 import {NgApexchartsModule} from "ng-apexcharts";
 
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
@@ -45,11 +42,8 @@ export class DashboardComponent implements OnInit{
 
   logic = inject(LogicService);
 
-
-
   public chartOptions: ChartOptions;
 
-  private renderer = inject(Renderer2);
   showDashboard: boolean = false;
   showChart: boolean = false;
 
