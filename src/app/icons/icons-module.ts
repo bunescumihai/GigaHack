@@ -15,11 +15,15 @@ import {
   IconSettingsFilled,
   IconArrowNarrowRight,
   IconSearch,
-  IconArrowNarrowLeft
+  IconArrowNarrowLeft,
+  IconBuilding,
+  IconChartHistogram,
 } from 'angular-tabler-icons/icons';
 
 // Select some icons (use an object, not an array)
 const icons = {
+  IconChartHistogram,
+  IconBuilding,
   IconSettingsFilled,
   IconArrowNarrowRight,
   IconArrowNarrowLeft,

@@ -1,3 +1,5 @@
 export const AppRouterTokens = {
-  HOME : ''
+  HOME : '',
+  ANALISYS: 'analysis',
+  AGENCIES: 'agencies',
 }

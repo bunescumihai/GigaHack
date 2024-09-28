@@ -1,7 +1,7 @@
 <div class="default-page">
   <div class="default-grid">
     <header class="d-flex justify-content-start align-items-center px-3 py-2">
-      <img class="h-100" src="assets/images/img.png" alt="">
+      <img class="h-100" src="assets/images/logo.png" alt="">
       <form class="ms-3">
         <div class="d-flex border border-1 align-items-center px-3 rounded-4">
 
@@ -16,8 +16,21 @@
           </ng-select>
 
 
+
         </div>
       </form>
+      <div class="routes ms-5">
+        <a routerLink="/analysis" class="route-link position-relative" >
+          <tabler-icon name="chart-histogram" class="position-relative"  style="width: 16px; height: 16px; top: -5px"></tabler-icon>
+          <span>Analysis</span>
+        </a>
+
+        <a routerLink="/agencies" class="route-link active">
+
+          <tabler-icon name="building" class="position-relative"  style="width: 16px; height: 16px; top: -5px"></tabler-icon>
+          <span>Agencies</span>
+        </a>
+      </div>
     </header>
     <div class="position-relative">
       <div class="map-container">

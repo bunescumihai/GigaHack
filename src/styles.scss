@@ -4,11 +4,22 @@
 @import 'bootstrap/scss/bootstrap';
 @import "@ng-select/ng-select/themes/default.theme.css";
 
-:root{
-  --background-main: rgb(235,235,235);
-
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/Inter/static/Inter_18pt-SemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
+
+
+:root{
+  --background-main: rgb(235,235,235);
+}
+
+* {
+  font-family: Inter, sans-serif;
+}
 
 .default-page{
   width: 100vw;
@@ -146,4 +157,36 @@
 
 .ng-arrow-wrapper{
   display: none;
+}
+
+
+.routes {
+  display: flex;
+  gap: 16px;
+}
+
+.route-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  text-decoration: none;
+  color: #333; /* Default text color */
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.route-link:hover {
+  background-color: #f0f0f0; /* Hover background */
+}
+
+.route-link.active {
+  background-color: #f1f1f1; /* Active background */
+  border: 1px solid rgba(196, 196, 196, 0.41);
+}
+
+.route-link.active span {
+  font-weight: 600; /* Bold the text for active link */
 }
