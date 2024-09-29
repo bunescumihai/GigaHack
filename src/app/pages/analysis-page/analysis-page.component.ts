@@ -7,7 +7,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {IconsModule} from "../../icons/icons-module";
 import {LeftSideBarComponent} from "../../components/left-side-bar/left-side-bar.component";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
-import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDropdownModule, NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {AsyncPipe} from "@angular/common";
 import 'leaflet.markercluster';
@@ -17,7 +17,7 @@ declare let L: any;
 @Component({
   selector: 'app-analysis-page',
   standalone: true,
-  imports: [RouterOutlet, IconsModule, LeftSideBarComponent, LeafletModule, NgbDropdownModule, NgSelectModule, DashboardComponent, AsyncPipe, RouterLink, AnalysisPageComponent],
+  imports: [RouterOutlet, NgbNavModule, IconsModule, LeftSideBarComponent, LeafletModule, NgbDropdownModule, NgSelectModule, DashboardComponent, AsyncPipe, RouterLink, AnalysisPageComponent],
   templateUrl: './analysis-page.component.html',
   styleUrl: './analysis-page.component.scss',
   animations: [pageLoadingAnimation]

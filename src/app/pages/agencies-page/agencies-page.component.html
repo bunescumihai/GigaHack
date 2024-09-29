@@ -6,22 +6,7 @@
 
     <div>
       <div class="row m-0 row-cols-2 row-gap-1">
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
-        <app-agency-card></app-agency-card>
+        <app-agency-card *ngFor=" let agency of agencyRepository.agencies$ | async" [agency]="{id: agency[0]+agency[1]+agency[2]+agency[3]+agency[5]}"></app-agency-card>
       </div>
     </div>
 

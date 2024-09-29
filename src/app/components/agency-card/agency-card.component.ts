@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Agency} from "../../models/agency";
 
 @Component({
   selector: 'app-agency-card',
@@ -9,4 +10,5 @@ import { Component } from '@angular/core';
 })
 export class AgencyCardComponent {
 
+  @Input() agency!: Agency;
 }

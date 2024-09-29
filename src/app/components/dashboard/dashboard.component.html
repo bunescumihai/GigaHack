@@ -1,14 +1,14 @@
-<div #dashboardMain class="dashboard-main" style="height: fit-content">
-    <div class="d-flex justify-content-end"  #rightSideContainer>
-      <div class="bg-white rounded-3 p-2 overflow-hidden"
-           [style.width]="showDashboard ? '1470px' : '188px'"
-           [style.height]="showDashboard ? '645px' : '43px'"
-           style="transition: 0.4s"
+<div #dashboardMain class="dashboard-main" style="height: fit-content; ">
+    <div class="d-flex justify-content-end"   #rightSideContainer>
+      <div class="bg-white rounded-3 p-2 overflow-hidden "
+           [style.width]="showDashboard ?  windowWidth() + 'px' : '186px'"
+           [style.height]="showDashboard ? windowHeight() + 'px' : '43px'"
+           style="transition: 0.4s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);"
       >
         <div class="border-bottom border-bottom-1 pb-2" >
           <div class="w-100 d-flex">
 
-            <button (click)="toggleDashBoard()" class="show-map-button px-3">
+            <button [style.opacity]="logic.location$() != '' ? '1': '0.7'" [disabled]="logic.location$() == ''" (click)="toggleDashBoard()" class="show-map-button px-3">
               <i-tabler *ngIf="!showDashboard" name="arrow-narrow-left"></i-tabler>
               {{ showDashboard ? 'Hide dashboard' : 'Show dashboard' }}
               <i-tabler *ngIf="showDashboard" name="arrow-narrow-right"></i-tabler>
@@ -37,28 +37,87 @@
 
           </div>
         </div>
-        <div class="row ms-0 mt-2 h-100 gx-0" [class.d-none]="!showDashboard">
-          <div class="col-6" style="max-height: 100%; height: calc(100% - 50px)">
-            <div #dashboardContainer id="dashboard-container">
+        <div  style="max-height: 100%; height: calc(100% - 50px); ">
+
+        <div class="row row-cols-1 row-cols-lg-2 ms-0 mt-2 h-100 gx-0" [class.d-none]="!showDashboard">
+          <div style="max-height: 100%; height: calc(100% - 50px)">
+            <div #dashboardContainer id="dashboard-container" class="p-3">
 
               <h1>{{logic.location$()}}</h1>
-              <div class="mt-3" style="text-align:center" *ngIf="showChart">
-                <apx-chart
-                  [series]="chartOptions.series"
-                  [chart]="chartOptions.chart"
-                  [xaxis]="chartOptions.xaxis"
-                  [title]="chartOptions.title"
-                ></apx-chart>
-              </div>
+
+              <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <button ngbNavLink>Costs</button>
+                  <ng-template ngbNavContent>
+                    <p class="pt-3"> This graph shows the total costs for each type of payment method (e.g., credit, cash) across different agencies.</p>
+                    <div class="mt-3" style="text-align:center" *ngIf="showChart">
+                      <apx-chart
+                        [series]="chartOptions.series"
+                        [chart]="chartOptions.chart"
+                        [xaxis]="chartOptions.xaxis"
+                        [yaxis]="chartOptions.yaxis"
+                      ></apx-chart>
+                    </div>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <button ngbNavLink>Interventions</button>
+                  <ng-template ngbNavContent>
+                    <p class="pt-3"> Displays the number of interventions completed, in-progress, or pending for each agency, categorized by their status.</p>
+
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="3">
+                  <button ngbNavLink>Avg. repair duration</button>
+                  <ng-template ngbNavContent>
+                    <p class="pt-3"> Illustrates the average time taken to complete repairs, broken down by different repair methods for each agency.</p>
+
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="4">
+                  <button ngbNavLink>Avg. repair cost</button>
+                  <ng-template ngbNavContent>
+                    <p class="pt-3"> Represents the average cost of various types of repairs across all agencies.</p>
+
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="5">
+                  <button ngbNavLink>Contract Efficiency (Cost/Time)</button>
+                  <ng-template ngbNavContent>
+                    <p class="pt-3"> Shows how efficiently each agency utilizes its contracts, measured by the cost incurred per time unit.</p>
+
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div [ngbNavOutlet]="nav" class="mt-2"></div>
 
             </div>
           </div>
-          <div class="col-6 border-start border-start-1 overflow-auto px-4" style="max-height: 100%; height: calc(100% - 50px)">
+          <div class="border-start border-start-1 overflow-auto px-4" style="max-height: 100%; height: 100%">
             <div #insightsContainer id="insights-container " >
-              <div [innerHTML]="markdownText"></div>
+
+              <ng-container *ngIf="insights$ | async as apiResponse">
+                <ng-container *ngIf="!apiResponse.loading; else loading">
+                  <ng-container *ngIf="!apiResponse.error && apiResponse.object">
+                    <ng-container *ngTemplateOutlet="content; context: {data: apiResponse.object}"></ng-container>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+
             </div>
           </div>
+        </div>
+
         </div>
       </div>
     </div>
 </div>
+
+<ng-template #loading>
+  <ci-loading></ci-loading>
+</ng-template>
+
+<ng-template #content let-project="data">
+  <div [innerHTML]="mark(project)"></div>
+</ng-template>
