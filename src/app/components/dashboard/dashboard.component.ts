@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   CUSTOM_ELEMENTS_SCHEMA, effect,
   ElementRef, HostListener,
@@ -121,7 +122,7 @@ export class DashboardComponent implements OnInit{
     this.showChart = !this.showChart;
   }
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
 
     this.insights$ = toObservable(this.logic.location$).pipe(
       switchMap(data => {
@@ -137,54 +138,56 @@ export class DashboardComponent implements OnInit{
       })
     );
 
-    toObservable(this.logic.location$).pipe(
-      switchMap(data => this.chartsRepository.costs(data).pipe(
-        tap(data => {
-          console.log(data);
-          this.chartInsightsOptions = {
-            series: [
-              {
-                data: data.payments.map(dt => dt.sum as string)
-              }
-            ],
-            chart: {
-              type: "bar",
-              height: 350
-            },
-            plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: "55%"
-              }
-            },
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              show: true,
-              width: 2,
-              colors: ["transparent"]
-            },
-            xaxis: {
-              title: {
-                text: "Payment type"
-              },
-              categories: data.payments.map(dt => dt.type as string)
-            },
-            yaxis: {
-              title: {
-                text: "Sum"
-              }
-            },
-            fill: {
-              opacity: 1
-            },
-          };
-        })
-      ))
+    this.costs$ = toObservable(this.logic.location$).pipe(
+      switchMap(data => this.chartsRepository.costs(data))
     );
 
+    this.costs$.subscribe(data => {
+      this.chartInsightsOptions = {
+        series: [
+          {
+            name: "Free Cash Flow",
+            data: data[0].payments.map(dt => dt.sum)
+          }
+        ],
+        chart: {
+          type: "bar",
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "55%"
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"]
+        },
+        xaxis: {
+          title: {
+            text: "Payment type"
+          },
+          categories: data[0].payments.map(dt => dt.type)
+        },
+        yaxis: {
+          title: {
+            text: "Sum"
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+      };
+      setTimeout(() => {
+        this.cdr.detectChanges();
 
+      }, 1000)
+    });
 
     this.chartCostOptions = {
       series: [{
@@ -222,56 +225,7 @@ export class DashboardComponent implements OnInit{
     };
 
 
-    this.chartInsightsOptions = {
-      series: [
-        {
-          name: "Free Cash Flow",
-          data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-        }
-      ],
-      chart: {
-        type: "bar",
-        height: 350
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "55%"
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"]
-      },
-      xaxis: {
-        title: {
-          text: "Payment type"
-        },
-        categories: [
-          'Autre',
-          'Contrat',
-          'Dépannage hors contrat',
-          'Formation',
-          'Garantie',
-          'Geste commercial',
-          'Mise en Service',
-          'Mise en Service Safetax',
-          'Travaux'
-        ]
-      },
-      yaxis: {
-        title: {
-          text: "Sum"
-        }
-      },
-      fill: {
-        opacity: 1
-      },
-    };
+    this.chartInsightsOptions = undefined;
 
 
     effect(() => {
