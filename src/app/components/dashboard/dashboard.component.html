@@ -40,10 +40,10 @@
         <div  style="max-height: 100%; height: calc(100% - 50px); ">
 
         <div class="row row-cols-1 row-cols-lg-2 ms-0 mt-2 h-100 gx-0" [class.d-none]="!showDashboard">
-          <div style="max-height: 100%; height: calc(100% - 50px)">
-            <div #dashboardContainer id="dashboard-container" class="p-3">
+          <div  class ="overflow-auto" style="max-height: 100%; height: calc(100% - 50px)">
+            <div #dashboardContainer id="dashboard-container" class="p-3 pt-0">
 
-              <h1>{{logic.location$()}}</h1>
+              <h3 class="pt-2">{{logic.location$()}}</h3>
 
               <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs">
                 <li [ngbNavItem]="1">
@@ -51,12 +51,17 @@
                   <ng-template ngbNavContent>
                     <p class="pt-3"> This graph shows the total costs for each type of payment method (e.g., credit, cash) across different agencies.</p>
                     <div class="mt-3" style="text-align:center" *ngIf="showChart">
-                      <apx-chart
-                        [series]="chartOptions.series"
-                        [chart]="chartOptions.chart"
-                        [xaxis]="chartOptions.xaxis"
-                        [yaxis]="chartOptions.yaxis"
-                      ></apx-chart>
+
+                        <apx-chart
+                          [series]="chartInsightsOptions.series"
+                          [chart]="chartInsightsOptions.chart"
+                          [dataLabels]="chartInsightsOptions.dataLabels"
+                          [plotOptions]="chartInsightsOptions.plotOptions"
+                          [yaxis]="chartInsightsOptions.yaxis"
+                          [fill]="chartInsightsOptions.fill"
+                          [stroke]="chartInsightsOptions.stroke"
+                          [xaxis]="chartInsightsOptions.xaxis"
+                        ></apx-chart>
                     </div>
                   </ng-template>
                 </li>
@@ -64,7 +69,15 @@
                   <button ngbNavLink>Interventions</button>
                   <ng-template ngbNavContent>
                     <p class="pt-3"> Displays the number of interventions completed, in-progress, or pending for each agency, categorized by their status.</p>
+                    <div id="chart">
 
+                      <apx-chart
+                        [series]="chartCostOptions.series"
+                        [chart]="chartCostOptions.chart"
+                        [xaxis]="chartCostOptions.xaxis"
+                        [yaxis]="chartCostOptions.yaxis"
+                      ></apx-chart>
+                    </div>
                   </ng-template>
                 </li>
                 <li [ngbNavItem]="3">

@@ -29,7 +29,8 @@ export class AppComponent implements OnInit, AfterViewInit{
 
 
   changeLocations(location: string){
-    this.logic.location$.set(location);
+    if(location != '')
+      this.logic.location$.set(location);
     console.log(location);
   }
 
